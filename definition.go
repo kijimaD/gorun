@@ -2,7 +2,6 @@ package gorun
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 
 	"gopkg.in/yaml.v2"
@@ -27,15 +26,15 @@ type Task struct {
 
 func LoadDefinition(filename string) (Definition, error) {
 	file, err := os.Open(filename)
-	defer file.Close()
 	if err != nil {
 		return Definition{}, err
 	}
+	defer file.Close()
 	return ParseDefinition(file)
 }
 
 func ParseDefinition(r io.Reader) (Definition, error) {
-	bs, err := ioutil.ReadAll(r)
+	bs, err := io.ReadAll(r)
 	if err != nil {
 		return Definition{}, err
 	}
@@ -46,7 +45,7 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 			Step        []struct {
 				Name   string `yaml:"name"`
 				Script string `yaml:"script"`
-			} `yaml:step`
+			} `yaml:"step"`
 		} `yaml:"jobs"`
 	}
 
