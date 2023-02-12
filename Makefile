@@ -24,6 +24,9 @@ ps: ## Check container status
 lint: ## Run lint
 	docker run --rm -v ${PWD}:/app -w /app golangci/golangci-lint:v1.50.1 golangci-lint run -v
 
+run: ## run
+	go run ./cmd
+
 test: ## Run test
 	go test -race -shuffle=on -v ./...
 
