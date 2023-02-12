@@ -1,13 +1,18 @@
 package gorun
 
+import (
+	"bytes"
+	"os"
+)
+
 type App struct{}
 
 func (app App) Run() {
 	task := Task{"hello", "echo hello"}
 	job := Job{
-		"job",
-		"this is job",
-		[]Task{task},
+		Name:        "job",
+		Description: "this is job",
+		Step:        []Task{task},
 	}
 	def := Definition{map[string]Job{"a": job}}
 
@@ -15,7 +20,15 @@ func (app App) Run() {
 		def.Jobs,
 	}
 
-	if err := jobRunner.RunJob("a"); err != nil {
+	bufout := &bytes.Buffer{}
+	buferr := &bytes.Buffer{}
+	renv := RuntimeEnvironment{
+		In:  os.Stdin,
+		Out: bufout,
+		Err: buferr,
+	}
+
+	if err := jobRunner.RunJob("a", renv); err != nil {
 		panic(err)
 	}
 }
