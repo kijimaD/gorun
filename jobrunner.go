@@ -9,8 +9,8 @@ type JobRunner struct {
 	jobs map[string]Job
 }
 
-func (jr JobRunner) RunJob(task string) error {
-	job := jr.jobs[task]
+func (jr JobRunner) RunJob(j string) error {
+	job := jr.jobs[j]
 
 	bufout := &bytes.Buffer{}
 	buferr := &bytes.Buffer{}
@@ -23,7 +23,7 @@ func (jr JobRunner) RunJob(task string) error {
 
 	for _, task := range job.Step {
 		tr := TaskRunner{task}
-		tr.RunTask("a", renv)
+		tr.RunTask(renv)
 	}
 	return nil
 }

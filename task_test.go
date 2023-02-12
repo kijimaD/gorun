@@ -20,7 +20,7 @@ func TestRunTask(t *testing.T) {
 
 	task := Task{"hello", "echo hello"}
 	tr := TaskRunner{task}
-	err := tr.RunTask("echo hello", renv)
+	err := tr.RunTask(renv)
 	if err != nil {
 		t.Error(err)
 	}
@@ -40,7 +40,7 @@ func TestRunTaskFailed(t *testing.T) {
 
 	task := Task{"hello", "not_exist"}
 	tr := TaskRunner{task}
-	err := tr.RunTask("not_exist", renv)
+	err := tr.RunTask(renv)
 	if err != nil {
 		got := buferr.String()
 		assert.Contains(t, got, "not_exist: ")

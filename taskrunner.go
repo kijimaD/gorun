@@ -6,8 +6,8 @@ type TaskRunner struct {
 	task Task
 }
 
-func (TaskRunner) RunTask(script string, renv RuntimeEnvironment) error {
-	cmd := exec.Command("bash", "-c", script)
+func (tr TaskRunner) RunTask(renv RuntimeEnvironment) error {
+	cmd := exec.Command("bash", "-c", tr.task.Script)
 	cmd.Stdin = renv.In
 	cmd.Stdout = renv.Out
 	cmd.Stderr = renv.Err
