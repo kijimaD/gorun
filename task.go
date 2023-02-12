@@ -4,9 +4,9 @@ import (
 	"os/exec"
 )
 
-type TaskRunner struct {
-	env RuntimeEnvironment
-}
+// type TaskRunner struct {
+// 	Env RuntimeEnvironment
+// }
 
 func RunTask(script string, renv RuntimeEnvironment) error {
 	cmd := exec.Command("bash", "-c", script)

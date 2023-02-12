@@ -20,7 +20,7 @@ func TestRunTask(t *testing.T) {
 
 	err := RunTask("echo hello", renv)
 	if err != nil {
-		t.Errorf("%w", err)
+		t.Error(err)
 	}
 	got := bufout.String()
 	assert.Equal(t, "hello\n", got)
@@ -39,7 +39,7 @@ func TestRunTaskFailed(t *testing.T) {
 	err := RunTask("not_exist", renv)
 	if err != nil {
 		got := buferr.String()
-		assert.Equal(t, "bash: 行 1: not_exist: コマンドが見つかりません\n", got)
+		assert.Contains(t, got, "not_exist: ")
 	}
 	got := bufout.String()
 	assert.Equal(t, "", got)

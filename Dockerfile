@@ -10,10 +10,11 @@ RUN apt-get update \
 WORKDIR /build
 COPY . .
 
+WORKDIR /build/cmd
 RUN GO111MODULE=on CGO_ENABLED=0 go build \
       -ldflags='-w -s -extldflags "-static"' \
-      -o ./bin/gorun \
- && upx-ucl --best --ultra-brute ./bin/gorun
+      -o /build/bin/gorun \
+ && upx-ucl --best --ultra-brute /build/bin/gorun
 
 ###########
 # release #
