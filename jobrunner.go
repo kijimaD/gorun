@@ -23,7 +23,9 @@ func (jr JobRunner) RunJob(j string) error {
 
 	for _, task := range job.Step {
 		tr := TaskRunner{task}
-		tr.RunTask(renv)
+		if err := tr.RunTask(renv); err != nil {
+			return err
+		}
 	}
 	return nil
 }

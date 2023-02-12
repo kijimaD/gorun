@@ -15,5 +15,7 @@ func (app App) Run() {
 		def.Jobs,
 	}
 
-	jobRunner.RunJob("a")
+	if err := jobRunner.RunJob("a"); err != nil {
+		panic(err)
+	}
 }
