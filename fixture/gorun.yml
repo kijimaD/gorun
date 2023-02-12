@@ -1,0 +1,8 @@
+jobs:
+  job_a:
+    description: test
+    steps:
+      - name: a
+        run: echo hello1
+      - name: b
+        run: echo hello2

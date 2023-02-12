@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoadDefinition(t *testing.T) {
-	got, err := LoadDefinition("gorun.yml")
+	got, err := LoadDefinition("./fixture/gorun.yml")
 	if err != nil {
 		t.Error(err)
 	}
@@ -19,7 +19,10 @@ func TestLoadDefinition(t *testing.T) {
 			Steps: Steps{
 				Task{
 					Name: "a",
-					Run:  "echo hello"},
+					Run:  "echo hello1"},
+				Task{
+					Name: "b",
+					Run:  "echo hello2"},
 			},
 		}},
 	}
