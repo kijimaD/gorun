@@ -10,18 +10,18 @@ import (
 type Step []Task
 
 type Definition struct {
-	Jobs map[string]Job
+	Jobs map[string]Job `yaml:"jobs"`
 }
 
 type Job struct {
-	Name        string
-	Description string
+	Name        string `yaml:"name"`
+	Description string `yaml:"description"`
 	Step        Step
 }
 
 type Task struct {
-	Name   string
-	Script string
+	Name   string `yaml:"name"`
+	Script string `yaml:"script"`
 }
 
 func LoadDefinition(filename string) (Definition, error) {
@@ -39,15 +39,7 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 		return Definition{}, err
 	}
 
-	var raw struct {
-		Jobs map[string]struct {
-			Description string `yaml:"description"`
-			Step        []struct {
-				Name   string `yaml:"name"`
-				Script string `yaml:"script"`
-			} `yaml:"step"`
-		} `yaml:"jobs"`
-	}
+	var raw Definition
 
 	if err := yaml.Unmarshal(bs, &raw); err != nil {
 		return Definition{}, err
