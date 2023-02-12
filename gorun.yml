@@ -1,0 +1,6 @@
+jobs:
+  a:
+    description: test
+    step:
+      - name: a
+        script: echo hello
