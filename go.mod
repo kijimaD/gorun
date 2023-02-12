@@ -1,3 +1,3 @@
-module github.com/kijimaD/go_skel
+module github.com/kijimaD/gorun
 
 go 1.19
