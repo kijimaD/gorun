@@ -11,5 +11,7 @@ func TestApp(t *testing.T) {
 
 	bufout := &bytes.Buffer{}
 	buferr := &bytes.Buffer{}
-	app.Run(os.Stdin, bufout, buferr)
+	if err := app.Run(os.Stdin, bufout, buferr); err != nil {
+		t.Error(err)
+	}
 }

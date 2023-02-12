@@ -6,14 +6,12 @@ import (
 
 type App struct{}
 
-func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) {
-	task := Task{"hello", "echo hello"}
-	job := Job{
-		Name:        "job",
-		Description: "this is job",
-		Steps:       []Task{task},
+func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) error {
+	def, err := LoadDefinition("gorun.yml")
+
+	if err != nil {
+		return err
 	}
-	def := Definition{map[string]Job{"a": job}}
 
 	jobRunner := JobRunner{
 		def.Jobs,
@@ -25,7 +23,11 @@ func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) {
 		Err: stderr,
 	}
 
-	if err := jobRunner.RunJob("a", renv); err != nil {
-		panic(err)
+	for _, j := range def.Jobs {
+		if err := jobRunner.RunJob(j.Name, renv); err != nil {
+			return err
+		}
 	}
+
+	return nil
 }

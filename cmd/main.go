@@ -8,5 +8,7 @@ import (
 
 func main() {
 	app := gorun.App{}
-	app.Run(os.Stdin, os.Stdout, os.Stderr)
+	if err := app.Run(os.Stdin, os.Stdout, os.Stderr); err != nil {
+		panic(err)
+	}
 }
