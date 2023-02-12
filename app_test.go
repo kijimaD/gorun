@@ -1,8 +1,15 @@
 package gorun
 
-import "testing"
+import (
+	"bytes"
+	"os"
+	"testing"
+)
 
 func TestApp(t *testing.T) {
 	app := App{}
-	app.Run()
+
+	bufout := &bytes.Buffer{}
+	buferr := &bytes.Buffer{}
+	app.Run(os.Stdin, bufout, buferr)
 }

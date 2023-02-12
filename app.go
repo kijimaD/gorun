@@ -1,13 +1,12 @@
 package gorun
 
 import (
-	"bytes"
-	"os"
+	"io"
 )
 
 type App struct{}
 
-func (app App) Run() {
+func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) {
 	task := Task{"hello", "echo hello"}
 	job := Job{
 		Name:        "job",
@@ -20,12 +19,10 @@ func (app App) Run() {
 		def.Jobs,
 	}
 
-	bufout := &bytes.Buffer{}
-	buferr := &bytes.Buffer{}
 	renv := RuntimeEnvironment{
-		In:  os.Stdin,
-		Out: bufout,
-		Err: buferr,
+		In:  stdin,
+		Out: stdout,
+		Err: stderr,
 	}
 
 	if err := jobRunner.RunJob("a", renv); err != nil {

@@ -1,9 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"os"
+
+	"github.com/kijimaD/gorun"
 )
 
 func main() {
-	fmt.Println("Hello world")
+	app := gorun.App{}
+	app.Run(os.Stdin, os.Stdout, os.Stderr)
 }
