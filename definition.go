@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Step []Task
+type Steps []Task
 
 type Definition struct {
 	Jobs map[string]Job `yaml:"jobs"`
@@ -16,12 +16,12 @@ type Definition struct {
 type Job struct {
 	Name        string `yaml:"name"`
 	Description string `yaml:"description"`
-	Step        Step
+	Steps       Steps
 }
 
 type Task struct {
-	Name   string `yaml:"name"`
-	Script string `yaml:"script"`
+	Name string `yaml:"name"`
+	Run  string `yaml:"run"`
 }
 
 func LoadDefinition(filename string) (Definition, error) {
@@ -50,17 +50,17 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 	}
 
 	for name, c := range raw.Jobs {
-		tasks := make([]Task, len(c.Step))
-		for i, t := range c.Step {
+		tasks := make([]Task, len(c.Steps))
+		for i, t := range c.Steps {
 			tasks[i] = Task{
 				t.Name,
-				t.Script,
+				t.Run,
 			}
 		}
 		def.Jobs[name] = Job{
 			Name:        name,
 			Description: c.Description,
-			Step:        tasks,
+			Steps:       tasks,
 		}
 	}
 

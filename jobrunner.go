@@ -7,7 +7,7 @@ type JobRunner struct {
 func (jr JobRunner) RunJob(j string, renv RuntimeEnvironment) error {
 	job := jr.jobs[j]
 
-	for _, task := range job.Step {
+	for _, task := range job.Steps {
 		tr := TaskRunner{task}
 		if err := tr.RunTask(renv); err != nil {
 			return err

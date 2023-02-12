@@ -13,13 +13,13 @@ func TestLoadDefinition(t *testing.T) {
 		t.Error(err)
 	}
 	expect := Definition{Jobs: map[string]Job{
-		"a": Job{
-			Name:        "a",
+		"job_a": Job{
+			Name:        "job_a",
 			Description: "test",
-			Step: Step{
+			Steps: Steps{
 				Task{
-					Name:   "a",
-					Script: "echo hello"},
+					Name: "a",
+					Run:  "echo hello"},
 			},
 		}},
 	}
@@ -33,13 +33,13 @@ func TestParseDefinition(t *testing.T) {
 		t.Error(err)
 	}
 	expect := Definition{Jobs: map[string]Job{
-		"a": Job{
-			Name:        "a",
+		"job_a": Job{
+			Name:        "job_a",
 			Description: "test",
-			Step: Step{
+			Steps: Steps{
 				Task{
-					Name:   "a",
-					Script: "echo hello"},
+					Name: "a",
+					Run:  "echo hello"},
 			},
 		}},
 	}
@@ -48,9 +48,9 @@ func TestParseDefinition(t *testing.T) {
 
 const defymlA = `
 jobs:
-  a:
+  job_a:
     description: test
-    step:
+    steps:
       - name: a
-        script: echo hello
+        run: echo hello
 `

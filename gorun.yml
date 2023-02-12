@@ -1,6 +1,6 @@
 jobs:
-  a:
+  job_a:
     description: test
-    step:
+    steps:
       - name: a
-        script: echo hello
+        run: echo hello

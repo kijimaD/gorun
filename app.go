@@ -12,7 +12,7 @@ func (app App) Run() {
 	job := Job{
 		Name:        "job",
 		Description: "this is job",
-		Step:        []Task{task},
+		Steps:       []Task{task},
 	}
 	def := Definition{map[string]Job{"a": job}}
 
