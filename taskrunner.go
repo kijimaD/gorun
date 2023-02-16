@@ -1,22 +1,36 @@
 package gorun
 
-import "os/exec"
+import (
+	"fmt"
+	"os/exec"
+)
 
 type TaskRunner struct {
 	task Task
 }
 
-func (tr TaskRunner) RunTask(renv RuntimeEnvironment) error {
-	cmd := exec.Command("bash", "-c", tr.task.Run)
-	cmd.Stdin = renv.In
-	cmd.Stdout = renv.Out
-	cmd.Stderr = renv.Err
+type logScript struct {
+	script string
+	cmd    *exec.Cmd
+}
 
-	if err := cmd.Start(); err != nil {
+func NewScript(script string, env RuntimeEnvironment) logScript {
+	c := exec.Command("bash", "-c", script)
+	c.Stdin = env.In
+	c.Stdout = env.Out
+	c.Stderr = env.Err
+	return logScript{script: script, cmd: c}
+}
+
+func (tr TaskRunner) RunTask(renv RuntimeEnvironment) error {
+	c := NewScript(tr.task.Run, renv)
+	fmt.Fprintln(renv.Out, c.script)
+
+	if err := c.cmd.Start(); err != nil {
 		return err
 	}
 
-	err := cmd.Wait()
+	err := c.cmd.Wait()
 	if err != nil {
 		return err
 	}

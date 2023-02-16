@@ -3,4 +3,9 @@ jobs:
     description: test
     steps:
       - name: a
-        run: echo hello
+        run: echo helloA
+  job_b:
+    description: test
+    steps:
+      - name: a
+        run: echo helloB
