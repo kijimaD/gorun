@@ -26,7 +26,7 @@ func TestRunTask(t *testing.T) {
 	}
 	got := bufout.String()
 	expect := `echo hello
-hello
+  hello
 `
 	assert.Equal(t, expect, got)
 }
