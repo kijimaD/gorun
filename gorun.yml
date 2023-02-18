@@ -8,6 +8,8 @@ jobs:
         run: go version
       - name: run version
         run: go build .
+      - name: error
+        run: not_exist_command
       - name: help
         run: go fmt ./...
   job_b:

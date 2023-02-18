@@ -10,20 +10,17 @@ import (
 
 func TestRunTask(t *testing.T) {
 	bufout := &bytes.Buffer{}
-	buferr := &bytes.Buffer{}
 
 	renv := RuntimeEnvironment{
 		In:  os.Stdin,
 		Out: bufout,
-		Err: buferr,
+		Err: &bytes.Buffer{},
 	}
 
-	task := Task{"hello", "echo hello"}
+	task := newTask("hello", "echo hello", "which make")
 	tr := TaskRunner{task}
-	err := tr.RunTask(renv)
-	if err != nil {
-		t.Error(err)
-	}
+	success := tr.RunTask(renv)
+	assert.Equal(t, true, success)
 	got := bufout.String()
 	expect := `  echo hello
     hello
@@ -32,24 +29,17 @@ func TestRunTask(t *testing.T) {
 }
 
 func TestRunTaskFailed(t *testing.T) {
-	bufout := &bytes.Buffer{}
 	buferr := &bytes.Buffer{}
 
 	renv := RuntimeEnvironment{
 		In:  os.Stdin,
-		Out: bufout,
+		Out: &bytes.Buffer{},
 		Err: buferr,
 	}
-
-	task := Task{"hello", "not_exist_command"}
+	task := newTask("hello", "not_exist_command", "")
 	tr := TaskRunner{task}
-	err := tr.RunTask(renv)
-	if err != nil {
-		got := buferr.String()
-		assert.Contains(t, got, "not_exist_command: ")
-	}
-	expect := `  not_exist_command
-`
-	got := bufout.String()
-	assert.Equal(t, expect, got)
+	success := tr.RunTask(renv)
+	assert.Equal(t, false, success)
+	got := buferr.String()
+	assert.Contains(t, got, "not_exist_command: ")
 }

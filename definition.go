@@ -22,6 +22,15 @@ type Job struct {
 type Task struct {
 	Name string `yaml:"name"`
 	Run  string `yaml:"run"`
+	If   string `yaml:"if"`
+}
+
+func newTask(name string, run string, ifarg string) Task {
+	return Task{
+		name,
+		run,
+		ifarg,
+	}
 }
 
 func LoadDefinition(filename string) (Definition, error) {
@@ -52,10 +61,11 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 	for name, c := range raw.Jobs {
 		tasks := make([]Task, len(c.Steps))
 		for i, t := range c.Steps {
-			tasks[i] = Task{
+			tasks[i] = newTask(
 				t.Name,
 				t.Run,
-			}
+				"",
+			)
 		}
 		def.Jobs[name] = Job{
 			Name:        name,

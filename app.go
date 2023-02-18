@@ -24,9 +24,7 @@ func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) error {
 	}
 
 	for _, j := range def.Jobs {
-		if err := jobRunner.RunJob(j.Name, renv); err != nil {
-			return err
-		}
+		jobRunner.RunJob(j.Name, renv)
 	}
 
 	return nil
