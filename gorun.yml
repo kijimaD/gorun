@@ -13,6 +13,9 @@ jobs:
       - name: help
         run: go fmt ./...
         if: which make
+      - name: skip
+        run: echo this_is_skip
+        if: which skip
   job_b:
     description: test
     steps:

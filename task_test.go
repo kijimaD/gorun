@@ -22,8 +22,30 @@ func TestRunTask(t *testing.T) {
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
-	expect := `  echo hello
+	expect := `  hello
+    $ echo hello
     hello
+`
+	assert.Equal(t, expect, got)
+}
+
+func TestRunSkip(t *testing.T) {
+	bufout := &bytes.Buffer{}
+
+	renv := RuntimeEnvironment{
+		In:  os.Stdin,
+		Out: bufout,
+		Err: &bytes.Buffer{},
+	}
+
+	task := newTask("hello", "echo hello", "which not_exist")
+	tr := TaskRunner{task}
+	success := tr.RunTask(renv)
+	assert.Equal(t, true, success)
+	got := bufout.String()
+	expect := `  hello
+    $ echo hello
+    [skip]
 `
 	assert.Equal(t, expect, got)
 }
