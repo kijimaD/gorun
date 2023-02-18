@@ -25,8 +25,8 @@ func TestRunTask(t *testing.T) {
 		t.Error(err)
 	}
 	got := bufout.String()
-	expect := `echo hello
-  hello
+	expect := `  echo hello
+    hello
 `
 	assert.Equal(t, expect, got)
 }
@@ -48,7 +48,7 @@ func TestRunTaskFailed(t *testing.T) {
 		got := buferr.String()
 		assert.Contains(t, got, "not_exist_command: ")
 	}
-	expect := `not_exist_command
+	expect := `  not_exist_command
 `
 	got := bufout.String()
 	assert.Equal(t, expect, got)

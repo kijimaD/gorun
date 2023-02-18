@@ -4,6 +4,12 @@ jobs:
     steps:
       - name: a
         run: echo helloA
+      - name: run version
+        run: go version
+      - name: run version
+        run: go build .
+      - name: help
+        run: go fmt ./...
   job_b:
     description: test
     steps:

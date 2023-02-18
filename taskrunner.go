@@ -28,7 +28,7 @@ func NewScript(script string, env RuntimeEnvironment, out *bytes.Buffer) logScri
 func (tr TaskRunner) RunTask(renv RuntimeEnvironment) error {
 	out := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out)
-	fmt.Fprintln(renv.Out, c.script)
+	fmt.Fprintf(renv.Out, "  %s\n", c.script)
 
 	if err := c.cmd.Start(); err != nil {
 		return err
@@ -41,7 +41,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) error {
 
 	s := bufio.NewScanner(c.log)
 	for s.Scan() {
-		fmt.Fprintf(renv.Out, "  %s\n", s.Text())
+		fmt.Fprintf(renv.Out, "    %s\n", s.Text())
 	}
 
 	return nil
