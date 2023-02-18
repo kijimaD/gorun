@@ -64,7 +64,7 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 			tasks[i] = newTask(
 				t.Name,
 				t.Run,
-				"",
+				t.If,
 			)
 		}
 		def.Jobs[name] = Job{

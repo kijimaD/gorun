@@ -12,6 +12,7 @@ jobs:
         run: not_exist_command
       - name: help
         run: go fmt ./...
+        if: which make
   job_b:
     description: test
     steps:

@@ -42,7 +42,9 @@ func TestParseDefinition(t *testing.T) {
 			Steps: Steps{
 				Task{
 					Name: "a",
-					Run:  "echo hello"},
+					Run:  "echo hello",
+					If:   "which echo",
+				},
 			},
 		}},
 	}
@@ -56,4 +58,5 @@ jobs:
     steps:
       - name: a
         run: echo hello
+        if: which echo
 `
