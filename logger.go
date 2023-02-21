@@ -1,11 +1,10 @@
-package logger
+package gorun
 
 import (
-	"context"
 	"fmt"
 )
 
-var ctxkey = "Log"
+var runlog map[string]infos
 
 type infos []info
 
@@ -26,18 +25,17 @@ func NewInfo(job string, task string, log string, status string) info {
 	return info
 }
 
-func add(ctx context.Context, key string, value info) context.Context {
+func add(key string, value info) map[string]infos {
 	result := map[string]infos{}
-	m := ctx.Value(ctxkey).(map[string]infos)
-	for k, v := range m {
+	for k, v := range runlog {
 		result[k] = v
 	}
 	result[key] = append(result[key], value)
-	ctx = context.WithValue(ctx, ctxkey, result)
-	return ctx
+	runlog = result
+
+	return runlog
 }
 
-func output(ctx context.Context) {
-	log := ctx.Value(ctxkey).(map[string]infos)
+func output(log map[string]infos) {
 	fmt.Println(log)
 }
