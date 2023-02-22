@@ -8,7 +8,13 @@ import (
 
 func main() {
 	app := gorun.App{}
-	if err := app.Run(os.Stdin, os.Stdout, os.Stderr); err != nil {
+	file, err := os.Open("./gorun.yml")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	definition, err := gorun.ParseDefinition(file)
+	if err := app.Run(os.Stdin, os.Stdout, os.Stderr, definition); err != nil {
 		panic(err)
 	}
 }

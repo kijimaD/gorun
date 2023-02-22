@@ -6,13 +6,7 @@ import (
 
 type App struct{}
 
-func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) error {
-	def, err := LoadDefinition("../gorun.yml")
-
-	if err != nil {
-		return err
-	}
-
+func (app App) Run(stdin io.Reader, stdout, stderr io.Writer, def Definition) error {
 	jobRunner := JobRunner{
 		def.Jobs,
 	}

@@ -11,7 +11,12 @@ func TestApp(t *testing.T) {
 
 	bufout := &bytes.Buffer{}
 	buferr := &bytes.Buffer{}
-	if err := app.Run(os.Stdin, bufout, buferr); err != nil {
+	file, err := os.Open("../gorun.yml")
+	if err != nil {
+		t.Error()
+	}
+	definition, err := ParseDefinition(file)
+	if err := app.Run(os.Stdin, bufout, buferr, definition); err != nil {
 		t.Error(err)
 	}
 }
