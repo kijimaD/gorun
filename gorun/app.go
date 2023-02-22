@@ -7,7 +7,7 @@ import (
 type App struct{}
 
 func (app App) Run(stdin io.Reader, stdout, stderr io.Writer) error {
-	def, err := LoadDefinition("gorun.yml")
+	def, err := LoadDefinition("../gorun.yml")
 
 	if err != nil {
 		return err

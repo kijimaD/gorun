@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/kijimaD/gorun/logger"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +19,7 @@ func TestRunTask(t *testing.T) {
 	}
 
 	task := newTask("hello", "echo hello", "which make")
-	tr := TaskRunner{task}
+	tr := TaskRunner{"job1", task}
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
@@ -27,6 +28,7 @@ func TestRunTask(t *testing.T) {
     hello
 `
 	assert.Equal(t, expect, got)
+	logger.Output(os.Stdout)
 }
 
 func TestRunSkip(t *testing.T) {
@@ -39,7 +41,7 @@ func TestRunSkip(t *testing.T) {
 	}
 
 	task := newTask("hello", "echo hello", "which not_exist")
-	tr := TaskRunner{task}
+	tr := TaskRunner{"job1", task}
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
@@ -59,7 +61,7 @@ func TestRunTaskFailed(t *testing.T) {
 		Err: buferr,
 	}
 	task := newTask("hello", "not_exist_command", "")
-	tr := TaskRunner{task}
+	tr := TaskRunner{"job1", task}
 	success := tr.RunTask(renv)
 	assert.Equal(t, false, success)
 	got := buferr.String()

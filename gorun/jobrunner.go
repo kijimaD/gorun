@@ -11,7 +11,7 @@ func (jr JobRunner) RunJob(j string, renv RuntimeEnvironment) bool {
 	fmt.Fprintf(renv.Out, "%s ────────────\n", job.Name)
 
 	for _, task := range job.Steps {
-		tr := TaskRunner{task}
+		tr := TaskRunner{job.Name, task}
 		tr.RunTask(renv)
 	}
 	return true

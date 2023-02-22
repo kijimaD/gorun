@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/kijimaD/gorun"
+	"github.com/kijimaD/gorun/gorun"
 )
 
 func main() {

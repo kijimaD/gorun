@@ -1,4 +1,4 @@
-package gorun
+package logger
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ func NewInfo(job string, task string, log string, status string) info {
 	return info
 }
 
-func addlog(key string, value info) map[string]infos {
+func Addlog(key string, value info) map[string]infos {
 	// TODO: 直に入れたいけどうまくいかない
 	result := map[string]infos{}
 	for k, v := range runlog {
@@ -38,6 +38,6 @@ func addlog(key string, value info) map[string]infos {
 	return runlog
 }
 
-func output(w io.Writer, log map[string]infos) {
-	fmt.Fprintln(w, log)
+func Output(w io.Writer) {
+	fmt.Fprintln(w, runlog)
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoadDefinition(t *testing.T) {
-	got, err := LoadDefinition("./fixture/gorun.yml")
+	got, err := LoadDefinition("../fixture/gorun.yml")
 	if err != nil {
 		t.Error(err)
 	}

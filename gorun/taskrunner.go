@@ -5,10 +5,13 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
+
+	"github.com/kijimaD/gorun/logger"
 )
 
 type TaskRunner struct {
-	task Task
+	jobName string
+	task    Task
 }
 
 type logScript struct {
@@ -32,6 +35,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	errbuf := bytes.Buffer{}
 	out := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
+	logger.Addlog(tr.jobName, logger.NewInfo(tr.jobName, tr.task.Name, c.log.String(), "aaa"))
 	fmt.Fprintf(renv.Out, "  %s\n", tr.task.Name)
 	fmt.Fprintf(renv.Out, "    $ %s\n", c.script)
 
