@@ -14,6 +14,9 @@ func main() {
 	}
 	defer file.Close()
 	definition, err := gorun.ParseDefinition(file)
+	if err != nil {
+		panic(err)
+	}
 	if err := app.Run(os.Stdin, os.Stdout, os.Stderr, definition); err != nil {
 		panic(err)
 	}

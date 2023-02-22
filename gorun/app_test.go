@@ -16,6 +16,9 @@ func TestApp(t *testing.T) {
 		t.Error()
 	}
 	definition, err := ParseDefinition(file)
+	if err != nil {
+		t.Error(err)
+	}
 	if err := app.Run(os.Stdin, bufout, buferr, definition); err != nil {
 		t.Error(err)
 	}
