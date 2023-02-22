@@ -2,6 +2,7 @@ package gorun
 
 import (
 	"fmt"
+	"io"
 )
 
 var runlog map[string]infos
@@ -25,7 +26,8 @@ func NewInfo(job string, task string, log string, status string) info {
 	return info
 }
 
-func add(key string, value info) map[string]infos {
+func addlog(key string, value info) map[string]infos {
+	// TODO: 直に入れたいけどうまくいかない
 	result := map[string]infos{}
 	for k, v := range runlog {
 		result[k] = v
@@ -36,6 +38,6 @@ func add(key string, value info) map[string]infos {
 	return runlog
 }
 
-func output(log map[string]infos) {
-	fmt.Println(log)
+func output(w io.Writer, log map[string]infos) {
+	fmt.Fprintln(w, log)
 }
