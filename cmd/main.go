@@ -6,9 +6,17 @@ import (
 	"github.com/kijimaD/gorun/gorun"
 )
 
+const DEFAULT_CONFIG_PATH = "./gorun.yml"
+
 func main() {
 	app := gorun.App{}
-	file, err := os.Open("./gorun.yml")
+	var configfile string
+	if len(os.Args) > 1 {
+		configfile = os.Args[1]
+	} else {
+		configfile = DEFAULT_CONFIG_PATH
+	}
+	file, err := os.Open(configfile)
 	if err != nil {
 		panic(err)
 	}

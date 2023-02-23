@@ -4,6 +4,10 @@
 
 `$ go install github.com/kijimaD/gorun@main`
 
+or
+
+`docker run -v "$PWD/":/work -w /work --rm -it ghcr.io/kijimad/gorun:main gorun.yml`
+
 ## try running
 
 prepare `gorun.yml`.
@@ -44,7 +48,7 @@ jobs:
 and run.
 
 ```shell
-$ go run ./cmd
+$ gorun gorun.yml
 => [job_a] 7/1 echo helloA
 => => # helloA
 => [job_a] 7/2 go version
