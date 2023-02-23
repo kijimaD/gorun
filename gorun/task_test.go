@@ -43,6 +43,7 @@ func TestRunSkip(t *testing.T) {
 	assert.Equal(t, true, success)
 	got := bufout.String()
 	expect := `=> [job1] 4/2 echo hello
+=> => # [skip]
 `
 	assert.Equal(t, expect, got)
 }

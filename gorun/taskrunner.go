@@ -30,23 +30,23 @@ func NewScript(script string, env RuntimeEnvironment, out *bytes.Buffer, errlog 
 func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	success := true
 	execute := true
-	errbuf := bytes.Buffer{}
 	out := bytes.Buffer{}
+	errbuf := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
 
-	info := logger.NewInfo(tr.jobName, tr.task.Name, c.log, c.errlog, "aaa", c.script)
+	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run)
 	info.Addlog().PrintTask(renv.Out)
 
 	// process if
 	i := NewScript(tr.task.If, renv, &bytes.Buffer{}, &bytes.Buffer{})
 	erri := i.cmd.Start()
 	if erri != nil {
-		c.log = bytes.NewBufferString("[skip]")
+		out = *bytes.NewBufferString("[skip]\n")
 		execute = false
 	}
 	erri = i.cmd.Wait()
 	if erri != nil {
-		c.log = bytes.NewBufferString("[skip]")
+		out = *bytes.NewBufferString("[skip]\n")
 		execute = false
 	}
 
