@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/kijimaD/gorun/logger"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +27,6 @@ func TestRunTask(t *testing.T) {
     hello
 `
 	assert.Equal(t, expect, got)
-	logger.Output(os.Stdout)
 }
 
 func TestRunSkip(t *testing.T) {

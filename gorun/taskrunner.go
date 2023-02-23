@@ -35,7 +35,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	errbuf := bytes.Buffer{}
 	out := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
-	logger.Addlog(tr.jobName, logger.NewInfo(tr.jobName, tr.task.Name, c.log.String(), "aaa"))
+	logger.Addlog(logger.NewInfo(tr.jobName, tr.task.Name, c.log, "aaa", c.script))
 	fmt.Fprintf(renv.Out, "  %s\n", tr.task.Name)
 	fmt.Fprintf(renv.Out, "    $ %s\n", c.script)
 

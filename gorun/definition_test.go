@@ -19,10 +19,14 @@ func TestLoadDefinition(t *testing.T) {
 			Steps: Steps{
 				Task{
 					Name: "a",
-					Run:  "echo hello1"},
+					Run:  "echo hello1",
+					If:   "",
+				},
 				Task{
 					Name: "b",
-					Run:  "echo hello2"},
+					Run:  "echo hello2",
+					If:   "",
+				},
 			},
 		}},
 	}

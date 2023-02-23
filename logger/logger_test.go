@@ -8,13 +8,14 @@ import (
 )
 
 func TestOutput(t *testing.T) {
-	Addlog("job1", NewInfo("job1", "taskA", "xxxx-1", "success"))
-	Addlog("job1", NewInfo("job1", "taskB", "yyyy-1", "fail"))
-	Addlog("job2", NewInfo("job2", "taskB", "xxxx-1", "success"))
+	infoTaskA := NewInfo("job1", "taskA", bytes.NewBufferString("xxxx-1"), "success", "echo helloA")
+	Addlog(infoTaskA)
+	Addlog(NewInfo("job1", "taskB", bytes.NewBufferString("yyyy-1"), "fail", "echo helloB1"))
+	Addlog(NewInfo("job2", "taskB", bytes.NewBufferString("xxxx-1"), "success", "echo helloB2"))
 
 	w := bytes.Buffer{}
-	Output(&w)
+	PrintTask(&w, infoTaskA)
 
-	expect := "map[job1:[{job1 taskA xxxx-1 success} {job1 taskB yyyy-1 fail}] job2:[{job2 taskB xxxx-1 success}]]\n"
+	expect := "[job1] 4/1 echo helloA"
 	assert.Equal(t, expect, w.String())
 }
