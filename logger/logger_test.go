@@ -8,14 +8,18 @@ import (
 )
 
 func TestOutput(t *testing.T) {
-	infoTaskA := NewInfo("job1", "taskA", bytes.NewBufferString("xxxx-1"), "success", "echo helloA")
-	Addlog(infoTaskA)
-	Addlog(NewInfo("job1", "taskB", bytes.NewBufferString("yyyy-1"), "fail", "echo helloB1"))
-	Addlog(NewInfo("job2", "taskB", bytes.NewBufferString("xxxx-1"), "success", "echo helloB2"))
-
 	w := bytes.Buffer{}
-	PrintTask(&w, infoTaskA)
 
-	expect := "[job1] 4/1 echo helloA"
+	infoTaskA1 := NewInfo("jobA", "taskA", bytes.NewBufferString("xx-1"), "ok", "echo helloA1")
+	infoTaskA1.Addlog().Print(&w)
+	infoTaskA2 := NewInfo("jobA", "taskB", bytes.NewBufferString("yy-1"), "ok", "echo helloA2")
+	infoTaskA2.Addlog().Print(&w)
+	infoTaskB := NewInfo("jobB", "taskB", bytes.NewBufferString("xx-1"), "fail", "echo helloB")
+	infoTaskB.Addlog().Print(&w)
+
+	expect := `[jobA] 4/1 echo helloA1
+[jobA] 4/2 echo helloA2
+[jobB] 4/1 echo helloB
+`
 	assert.Equal(t, expect, w.String())
 }

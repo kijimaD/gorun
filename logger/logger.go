@@ -29,18 +29,19 @@ func NewInfo(job string, task string, log *bytes.Buffer, status string, script s
 	return info
 }
 
-func Addlog(i info) map[string]infos {
+func (i *info) Addlog() *info {
 	// TODO: 直に入れたいけどうまくいかない
 	result := map[string]infos{}
 	for k, v := range runlog {
 		result[k] = v
 	}
-	result[i.job] = append(result[i.job], i)
+	result[i.job] = append(result[i.job], *i)
 	runlog = result
-
-	return runlog
+	return i
 }
 
-func PrintTask(w io.Writer, i info) {
-	fmt.Fprintf(w, "[%s] 4/%d %s", i.job, 1, i.script)
+func (i *info) Print(w io.Writer) *info {
+	l := len(runlog[i.job])
+	fmt.Fprintf(w, "[%s] 4/%d %s\n", i.job, l, i.script)
+	return i
 }
