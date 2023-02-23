@@ -16,8 +16,15 @@ jobs:
       - name: skip
         run: echo this_is_skip
         if: which skip
+      - name: current dir
+        run: pwd
+        working-directory: /tmp
   job_b:
     description: test
     steps:
       - name: a
         run: echo helloB
+      - name: b
+        run: echo $WORLD
+        env:
+          WORLD: hello

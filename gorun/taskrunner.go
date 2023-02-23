@@ -2,6 +2,7 @@ package gorun
 
 import (
 	"bytes"
+	"fmt"
 	"os/exec"
 
 	"github.com/kijimaD/gorun/logger"
@@ -37,6 +38,10 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 
 	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run, tr.allstep)
 	info.Addlog().PrintTask(renv.Out)
+
+	for k, v := range tr.task.Env {
+		c.cmd.Env = append(c.cmd.Env, fmt.Sprintf("%s=%s", k, v))
+	}
 
 	// workdir
 	if len(tr.task.Workdir) > 0 {

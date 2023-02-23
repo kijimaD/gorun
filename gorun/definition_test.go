@@ -22,12 +22,14 @@ func TestLoadDefinition(t *testing.T) {
 					Run:     "echo hello1",
 					If:      "",
 					Workdir: "",
+					Env:     nil,
 				},
 				Task{
 					Name:    "b",
 					Run:     "echo hello2",
 					If:      "",
 					Workdir: "",
+					Env:     nil,
 				},
 			},
 		}},
@@ -51,6 +53,7 @@ func TestParseDefinition(t *testing.T) {
 					Run:     "echo hello",
 					If:      "which echo",
 					Workdir: "/tmp",
+					Env:     map[string]string{"NAME": "hello"},
 				},
 			},
 		}},
@@ -67,4 +70,6 @@ jobs:
         run: echo hello
         if: which echo
         working-directory: /tmp
+        env:
+          NAME: hello
 `
