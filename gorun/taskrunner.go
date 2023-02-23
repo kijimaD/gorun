@@ -46,13 +46,14 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	// process if
 	i := NewScript(tr.task.If, renv, &bytes.Buffer{}, &bytes.Buffer{})
 	erri := i.cmd.Start()
+	const skipmsg = "[skip]\n"
 	if erri != nil {
-		out = *bytes.NewBufferString("[skip]\n")
+		out = *bytes.NewBufferString(skipmsg)
 		execute = false
 	}
 	erri = i.cmd.Wait()
 	if erri != nil {
-		out = *bytes.NewBufferString("[skip]\n")
+		out = *bytes.NewBufferString(skipmsg)
 		execute = false
 	}
 
