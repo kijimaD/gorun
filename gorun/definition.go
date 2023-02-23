@@ -20,16 +20,18 @@ type Job struct {
 }
 
 type Task struct {
-	Name string `yaml:"name"`
-	Run  string `yaml:"run"`
-	If   string `yaml:"if"`
+	Name    string `yaml:"name"`
+	Run     string `yaml:"run"`
+	If      string `yaml:"if"`
+	Workdir string `yaml:"working-directory"`
 }
 
-func newTask(name string, run string, ifarg string) Task {
+func newTask(name string, run string, ifarg string, workdir string) Task {
 	return Task{
 		name,
 		run,
 		ifarg,
+		workdir,
 	}
 }
 
@@ -65,6 +67,7 @@ func ParseDefinition(r io.Reader) (Definition, error) {
 				t.Name,
 				t.Run,
 				t.If,
+				t.Workdir,
 			)
 		}
 		def.Jobs[name] = Job{

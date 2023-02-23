@@ -18,14 +18,16 @@ func TestLoadDefinition(t *testing.T) {
 			Description: "test",
 			Steps: Steps{
 				Task{
-					Name: "a",
-					Run:  "echo hello1",
-					If:   "",
+					Name:    "a",
+					Run:     "echo hello1",
+					If:      "",
+					Workdir: "",
 				},
 				Task{
-					Name: "b",
-					Run:  "echo hello2",
-					If:   "",
+					Name:    "b",
+					Run:     "echo hello2",
+					If:      "",
+					Workdir: "",
 				},
 			},
 		}},
@@ -45,9 +47,10 @@ func TestParseDefinition(t *testing.T) {
 			Description: "test",
 			Steps: Steps{
 				Task{
-					Name: "a",
-					Run:  "echo hello",
-					If:   "which echo",
+					Name:    "a",
+					Run:     "echo hello",
+					If:      "which echo",
+					Workdir: "/tmp",
 				},
 			},
 		}},
@@ -63,4 +66,5 @@ jobs:
       - name: a
         run: echo hello
         if: which echo
+        working-directory: /tmp
 `
