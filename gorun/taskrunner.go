@@ -9,6 +9,7 @@ import (
 
 type TaskRunner struct {
 	jobName string
+	allstep int
 	task    Task
 }
 
@@ -34,7 +35,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	errbuf := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
 
-	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run)
+	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run, tr.allstep)
 	info.Addlog().PrintTask(renv.Out)
 
 	// process if

@@ -11,22 +11,24 @@ var runlog map[string]infos
 type infos []info
 
 type info struct {
-	job    string
-	task   string
-	log    *bytes.Buffer
-	errlog *bytes.Buffer
-	status string
-	script string
+	job     string
+	task    string
+	log     *bytes.Buffer
+	errlog  *bytes.Buffer
+	status  string
+	script  string
+	allstep int
 }
 
-func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string) info {
+func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int) info {
 	info := info{
-		job:    job,
-		task:   task,
-		log:    log,
-		errlog: errlog,
-		status: status,
-		script: script,
+		job:     job,
+		task:    task,
+		log:     log,
+		errlog:  errlog,
+		status:  status,
+		script:  script,
+		allstep: allstep,
 	}
 	return info
 }
@@ -44,7 +46,7 @@ func (i *info) Addlog() *info {
 
 func (i *info) PrintTask(w io.Writer) *info {
 	l := len(runlog[i.job])
-	fmt.Fprintf(w, "=> [%s] 4/%d %s\n", i.job, l, i.script)
+	fmt.Fprintf(w, "=> [%s] %d/%d %s\n", i.job, i.allstep, l, i.script)
 	return i
 }
 
