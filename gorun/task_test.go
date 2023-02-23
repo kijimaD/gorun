@@ -22,8 +22,8 @@ func TestRunTask(t *testing.T) {
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
-	expect := `[job1] 4/1 echo hello
-    hello
+	expect := `=> [job1] 4/1 echo hello
+=> => # hello
 `
 	assert.Equal(t, expect, got)
 }
@@ -42,8 +42,7 @@ func TestRunSkip(t *testing.T) {
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
-	expect := `[job1] 4/2 echo hello
-    [skip]
+	expect := `=> [job1] 4/2 echo hello
 `
 	assert.Equal(t, expect, got)
 }

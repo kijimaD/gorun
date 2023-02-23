@@ -14,15 +14,17 @@ type info struct {
 	job    string
 	task   string
 	log    *bytes.Buffer
+	errlog *bytes.Buffer
 	status string
 	script string
 }
 
-func NewInfo(job string, task string, log *bytes.Buffer, status string, script string) info {
+func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string) info {
 	info := info{
 		job:    job,
 		task:   task,
 		log:    log,
+		errlog: errlog,
 		status: status,
 		script: script,
 	}
@@ -40,8 +42,21 @@ func (i *info) Addlog() *info {
 	return i
 }
 
-func (i *info) Print(w io.Writer) *info {
+func (i *info) TaskPrint(w io.Writer) *info {
 	l := len(runlog[i.job])
-	fmt.Fprintf(w, "[%s] 4/%d %s\n", i.job, l, i.script)
+	fmt.Fprintf(w, "=> [%s] 4/%d %s\n", i.job, l, i.script)
+	return i
+}
+
+func (i *info) CmdPrint(w io.Writer) *info {
+	if len(i.log.String()) > 0 {
+		fmt.Fprintf(w, "=> => # %s", i.log.String())
+	}
+	return i
+}
+func (i *info) CmdErrPrint(w io.Writer) *info {
+	if len(i.errlog.String()) > 0 {
+		fmt.Fprintf(w, "=> => # %s", i.errlog.String())
+	}
 	return i
 }

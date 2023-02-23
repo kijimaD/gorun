@@ -1,9 +1,7 @@
 package gorun
 
 import (
-	"bufio"
 	"bytes"
-	"fmt"
 	"os/exec"
 
 	"github.com/kijimaD/gorun/logger"
@@ -36,9 +34,10 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	out := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
 
-	info := logger.NewInfo(tr.jobName, tr.task.Name, c.log, "aaa", c.script)
-	info.Addlog().Print(renv.Out)
+	info := logger.NewInfo(tr.jobName, tr.task.Name, c.log, c.errlog, "aaa", c.script)
+	info.Addlog().TaskPrint(renv.Out)
 
+	// process if
 	i := NewScript(tr.task.If, renv, &bytes.Buffer{}, &bytes.Buffer{})
 	erri := i.cmd.Start()
 	if erri != nil {
@@ -63,15 +62,8 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 		}
 	}
 
-	s := bufio.NewScanner(c.log)
-	for s.Scan() {
-		fmt.Fprintf(renv.Out, "    %s\n", s.Text())
-	}
-
-	e := bufio.NewScanner(c.errlog)
-	for e.Scan() {
-		fmt.Fprintf(renv.Err, "    %s\n", e.Text())
-	}
+	info.CmdPrint(renv.Out)
+	info.CmdErrPrint(renv.Err)
 
 	return success
 }
