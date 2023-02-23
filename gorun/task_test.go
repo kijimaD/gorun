@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/kijimaD/gorun/logger"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,14 +19,15 @@ func TestRunTask(t *testing.T) {
 	}
 
 	task := newTask("hello", "echo hello", "which make")
-	tr := TaskRunner{"job1", 2, task}
+	tr := TaskRunner{"job1", 1, task}
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
-	expect := `=> [job1] 2/1 echo hello
+	expect := `=> [job1] 1/1 echo hello
 => => # hello
 `
 	assert.Equal(t, expect, got)
+	logger.Flush()
 }
 
 func TestRunSkip(t *testing.T) {
@@ -38,14 +40,15 @@ func TestRunSkip(t *testing.T) {
 	}
 
 	task := newTask("hello", "echo hello", "which not_exist")
-	tr := TaskRunner{"job1", 2, task}
+	tr := TaskRunner{"job1", 1, task}
 	success := tr.RunTask(renv)
 	assert.Equal(t, true, success)
 	got := bufout.String()
-	expect := `=> [job1] 2/2 echo hello
+	expect := `=> [job1] 1/1 echo hello
 => => # [skip]
 `
 	assert.Equal(t, expect, got)
+	logger.Flush()
 }
 
 func TestRunTaskFailed(t *testing.T) {
@@ -62,4 +65,5 @@ func TestRunTaskFailed(t *testing.T) {
 	assert.Equal(t, false, success)
 	got := buferr.String()
 	assert.Contains(t, got, "not_exist_command: ")
+	logger.Flush()
 }

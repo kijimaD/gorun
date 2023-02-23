@@ -20,6 +20,10 @@ type info struct {
 	allstep int
 }
 
+func Flush() {
+	runlog = map[string]infos{}
+}
+
 func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int) info {
 	info := info{
 		job:     job,
