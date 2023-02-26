@@ -7,6 +7,7 @@ import (
 )
 
 func TestApp(t *testing.T) {
+	// Execution test...
 	app := App{}
 
 	bufout := &bytes.Buffer{}

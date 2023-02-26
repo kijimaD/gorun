@@ -2,6 +2,8 @@ package gorun
 
 import (
 	"io"
+
+	"github.com/kijimaD/gorun/logger"
 )
 
 type App struct{}
@@ -20,6 +22,8 @@ func (app App) Run(stdin io.Reader, stdout, stderr io.Writer, def Definition) er
 	for _, j := range def.Jobs {
 		jobRunner.RunJob(j.Name, renv)
 	}
+
+	logger.Result(stdout)
 
 	return nil
 }

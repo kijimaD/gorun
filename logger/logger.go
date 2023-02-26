@@ -24,6 +24,16 @@ func Flush() {
 	runlog = map[string]infos{}
 }
 
+func Result(w io.Writer) {
+	const line = "●───────────●"
+	fmt.Fprintf(w, "\n%s\nResult\n%s\n\n", line, line)
+	for _, v := range runlog {
+		for _, info := range v {
+			info.PrintTask(w)
+		}
+	}
+}
+
 func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int) info {
 	info := info{
 		job:     job,

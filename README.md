@@ -8,7 +8,7 @@ or
 
 `docker run -v "$PWD/":/work -w /work --rm -it ghcr.io/kijimad/gorun:main gorun.yml`
 
-## try running
+## Usage
 
 prepare `gorun.yml`.
 
