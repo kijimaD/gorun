@@ -18,6 +18,7 @@ type info struct {
 	status  string
 	script  string
 	allstep int
+	idx     int
 }
 
 func Flush() {
@@ -34,7 +35,7 @@ func Result(w io.Writer) {
 	}
 }
 
-func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int) info {
+func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int, idx int) info {
 	info := info{
 		job:     job,
 		task:    task,
@@ -43,6 +44,7 @@ func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, s
 		status:  status,
 		script:  script,
 		allstep: allstep,
+		idx:     idx,
 	}
 	return info
 }
@@ -59,8 +61,7 @@ func (i *info) Addlog() *info {
 }
 
 func (i *info) PrintTask(w io.Writer) *info {
-	l := len(runlog[i.job])
-	fmt.Fprintf(w, "=> [%s] %d/%d %s\n", i.job, i.allstep, l, i.script)
+	fmt.Fprintf(w, "=> [%s] %d/%d %s\n", i.job, i.allstep, i.idx, i.script)
 	return i
 }
 

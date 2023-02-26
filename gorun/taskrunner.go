@@ -10,8 +10,9 @@ import (
 
 type TaskRunner struct {
 	jobName string
-	allstep int
 	task    Task
+	allstep int
+	idx     int
 }
 
 type logScript struct {
@@ -36,7 +37,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	errbuf := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
 
-	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run, tr.allstep)
+	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run, tr.allstep, tr.idx)
 	info.Addlog().PrintTask(renv.Out)
 
 	for k, v := range tr.task.Env {

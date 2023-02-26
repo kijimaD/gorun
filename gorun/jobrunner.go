@@ -4,11 +4,11 @@ type JobRunner struct {
 	jobs map[string]Job
 }
 
-func (jr JobRunner) RunJob(j string, renv RuntimeEnvironment) bool {
-	job := jr.jobs[j]
+func (jr JobRunner) RunJob(jstr string, renv RuntimeEnvironment) bool {
+	job := jr.jobs[jstr]
 
-	for _, task := range job.Steps {
-		tr := TaskRunner{job.Name, len(job.Steps), task}
+	for i, task := range job.Steps {
+		tr := TaskRunner{job.Name, task, len(job.Steps), i + 1}
 		tr.RunTask(renv)
 	}
 	return true
