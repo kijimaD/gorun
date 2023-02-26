@@ -9,7 +9,7 @@ const (
 	Yet
 )
 
-var runStatusStrings = [4]string{"○", "☓", "⏭️", "🚫"}
+var runStatusStrings = [4]string{"✅", "❌", "⏸", "⛔"}
 
 func (s RunStatus) String() string {
 	return runStatusStrings[s]

@@ -71,15 +71,15 @@ go run ./cmd
 Result
 ●───────────●
 
-○ => [job_b] 2/1 echo helloB
-○ => [job_b] 2/2 echo $WORLD
-○ => [job_a] 7/1 echo helloA
-○ => [job_a] 7/2 go version
-☓ => [job_a] 7/3 go build .
-☓ => [job_a] 7/4 not_exist_command
-○ => [job_a] 7/5 go fmt ./...
-⏭️ => [job_a] 7/6 echo this_is_skip
-○ => [job_a] 7/7 pwd
+✅ [job_a] 7/1 echo helloA
+✅ [job_a] 7/2 go version
+❌ [job_a] 7/3 go build .
+❌ [job_a] 7/4 not_exist_command
+✅ [job_a] 7/5 go fmt ./...
+⏸ [job_a] 7/6 echo this_is_skip
+✅ [job_a] 7/7 pwd
+✅ [job_b] 2/1 echo helloB
+✅ [job_b] 2/2 echo $WORLD
 ```
 
 inspired: https://github.com/morikuni/ran

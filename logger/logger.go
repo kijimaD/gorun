@@ -30,9 +30,7 @@ func Result(w io.Writer) {
 	fmt.Fprintf(w, "\n%s\nResult\n%s\n\n", line, line)
 	for _, v := range runlog {
 		for _, info := range v {
-			// 最初に入れられたのが入っているだけ。グローバル変数に入っているのを更新しないといけない
-			fmt.Fprintf(w, "%s ", info.status)
-			info.PrintTask(w)
+			fmt.Fprintf(w, "%s [%s] %d/%d %s\n", info.status, info.job, info.allstep, info.idx, info.script)
 		}
 	}
 }
