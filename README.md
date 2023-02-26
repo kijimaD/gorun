@@ -48,7 +48,11 @@ jobs:
 and run.
 
 ```shell
-$ gorun gorun.yml
+go run ./cmd
+=> [job_b] 2/1 echo helloB
+=> => # helloB
+=> [job_b] 2/2 echo $WORLD
+=> => # hello
 => [job_a] 7/1 echo helloA
 => => # helloA
 => [job_a] 7/2 go version
@@ -62,10 +66,20 @@ $ gorun gorun.yml
 => => # [skip]
 => [job_a] 7/7 pwd
 => => # /tmp
-=> [job_b] 2/1 echo helloB
-=> => # helloB
-=> [job_b] 2/2 echo $WORLD
-=> => # hello
+
+●───────────●
+Result
+●───────────●
+
+○ => [job_b] 2/1 echo helloB
+○ => [job_b] 2/2 echo $WORLD
+○ => [job_a] 7/1 echo helloA
+○ => [job_a] 7/2 go version
+☓ => [job_a] 7/3 go build .
+☓ => [job_a] 7/4 not_exist_command
+○ => [job_a] 7/5 go fmt ./...
+⏭️ => [job_a] 7/6 echo this_is_skip
+○ => [job_a] 7/7 pwd
 ```
 
 inspired: https://github.com/morikuni/ran

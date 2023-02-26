@@ -10,11 +10,11 @@ import (
 func TestOutput(t *testing.T) {
 	w := bytes.Buffer{}
 
-	infoTaskA1 := NewInfo("jobA", "taskA", bytes.NewBufferString("xx-1"), &bytes.Buffer{}, "ok", "echo helloA1", 2, 1)
+	infoTaskA1 := NewInfo("jobA", "taskA", bytes.NewBufferString("xx-1"), &bytes.Buffer{}, OK, "echo helloA1", 2, 1)
 	infoTaskA1.Addlog().PrintTask(&w)
-	infoTaskA2 := NewInfo("jobA", "taskB", bytes.NewBufferString("yy-1"), &bytes.Buffer{}, "ok", "echo helloA2", 2, 2)
+	infoTaskA2 := NewInfo("jobA", "taskB", bytes.NewBufferString("yy-1"), &bytes.Buffer{}, OK, "echo helloA2", 2, 2)
 	infoTaskA2.Addlog().PrintTask(&w)
-	infoTaskB := NewInfo("jobB", "taskB", bytes.NewBufferString("xx-1"), &bytes.Buffer{}, "fail", "echo helloB", 1, 1)
+	infoTaskB := NewInfo("jobB", "taskB", bytes.NewBufferString("xx-1"), &bytes.Buffer{}, Fail, "echo helloB", 1, 1)
 	infoTaskB.Addlog().PrintTask(&w)
 
 	expect := `=> [jobA] 2/1 echo helloA1

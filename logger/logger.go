@@ -8,14 +8,14 @@ import (
 
 var runlog map[string]infos
 
-type infos []info
+type infos []*info
 
 type info struct {
 	job     string
 	task    string
 	log     *bytes.Buffer
 	errlog  *bytes.Buffer
-	status  string
+	status  RunStatus
 	script  string
 	allstep int
 	idx     int
@@ -30,12 +30,18 @@ func Result(w io.Writer) {
 	fmt.Fprintf(w, "\n%s\nResult\n%s\n\n", line, line)
 	for _, v := range runlog {
 		for _, info := range v {
+			// 最初に入れられたのが入っているだけ。グローバル変数に入っているのを更新しないといけない
+			fmt.Fprintf(w, "%s ", info.status)
 			info.PrintTask(w)
 		}
 	}
 }
 
-func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status string, script string, allstep int, idx int) info {
+func (i *info) UpdateStatus(r RunStatus) {
+	i.status = r
+}
+
+func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, status RunStatus, script string, allstep int, idx int) *info {
 	info := info{
 		job:     job,
 		task:    task,
@@ -46,7 +52,7 @@ func NewInfo(job string, task string, log *bytes.Buffer, errlog *bytes.Buffer, s
 		allstep: allstep,
 		idx:     idx,
 	}
-	return info
+	return &info
 }
 
 func (i *info) Addlog() *info {
@@ -55,7 +61,7 @@ func (i *info) Addlog() *info {
 	for k, v := range runlog {
 		result[k] = v
 	}
-	result[i.job] = append(result[i.job], *i)
+	result[i.job] = append(result[i.job], i)
 	runlog = result
 	return i
 }

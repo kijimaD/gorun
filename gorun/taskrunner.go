@@ -37,7 +37,7 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	errbuf := bytes.Buffer{}
 	c := NewScript(tr.task.Run, renv, &out, &errbuf)
 
-	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, "aaa", tr.task.Run, tr.allstep, tr.idx)
+	info := logger.NewInfo(tr.jobName, tr.task.Name, &out, &errbuf, logger.Yet, tr.task.Run, tr.allstep, tr.idx)
 	info.Addlog().PrintTask(renv.Out)
 
 	for k, v := range tr.task.Env {
@@ -55,23 +55,31 @@ func (tr TaskRunner) RunTask(renv RuntimeEnvironment) bool {
 	const skipmsg = "[skip]\n"
 	if erri != nil {
 		out = *bytes.NewBufferString(skipmsg)
+		info.UpdateStatus(logger.Skip)
 		execute = false
 	}
 	erri = i.cmd.Wait()
 	if erri != nil {
 		out = *bytes.NewBufferString(skipmsg)
+		info.UpdateStatus(logger.Skip)
 		execute = false
 	}
 
 	if execute {
 		err := c.cmd.Start()
 		if err != nil {
+			info.UpdateStatus(logger.Fail)
 			success = false
+		} else {
+			info.UpdateStatus(logger.OK)
 		}
 
 		err = c.cmd.Wait()
 		if err != nil {
+			info.UpdateStatus(logger.Fail)
 			success = false
+		} else {
+			info.UpdateStatus(logger.OK)
 		}
 	}
 
