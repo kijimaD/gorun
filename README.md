@@ -48,7 +48,7 @@ jobs:
 and run.
 
 ```shell
-go run ./cmd
+go run .
 => [job_b] 2/1 echo helloB
 => => # helloB
 => [job_b] 2/2 echo $WORLD

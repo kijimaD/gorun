@@ -4,7 +4,7 @@
 DOCKER_TAG := latest
 build: ## Build image for deploy
 	docker build -t kijimad/gorun:${DOCKER_TAG} \
-	--target deploy ./
+	--target release ./
 
 build-local: ## Build image for local development
 	docker-compose build --no-cache
@@ -25,7 +25,7 @@ lint: ## Run lint
 	docker run --rm -v ${PWD}:/app -w /app golangci/golangci-lint:v1.50.1 golangci-lint run -v
 
 run: ## run
-	go run ./cmd
+	go run .
 
 test: ## Run test
 	go test -race -shuffle=on -v ./...
